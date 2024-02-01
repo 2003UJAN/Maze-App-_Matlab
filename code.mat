@@ -7,6 +7,17 @@ classdef myapp < matlab.apps.AppBase
         UIAxes         matlab.ui.control.UIAxes
     end
 
+    % Callbacks that handle component events
+    methods (Access = private)
+
+        % Button pushed function: NewMazeButton
+        function NewMazeButtonPushed(app, event)
+          [wall,wx,wy] = amaze();
+          plot(app.UIAxes,wall,"XData",wx,"YData",wy,"NodeLabel",[])
+          axis(app.UIAxes,"equal")
+        end
+    end
+
     % Component initialization
     methods (Access = private)
 
@@ -15,7 +26,7 @@ classdef myapp < matlab.apps.AppBase
 
             % Create UIFigure and hide until all components are created
             app.UIFigure = uifigure('Visible', 'off');
-            app.UIFigure.Position = [100 100 640 480];
+            app.UIFigure.Position = [100 100 258 254];
             app.UIFigure.Name = 'MATLAB App';
 
             % Create UIAxes
@@ -26,11 +37,12 @@ classdef myapp < matlab.apps.AppBase
             app.UIAxes.YTick = [];
             app.UIAxes.YTickLabel = '';
             app.UIAxes.Box = 'on';
-            app.UIAxes.Position = [171 216 300 185];
+            app.UIAxes.Position = [27 57 200 185];
 
             % Create NewMazeButton
             app.NewMazeButton = uibutton(app.UIFigure, 'push');
-            app.NewMazeButton.Position = [282 181 100 23];
+            app.NewMazeButton.ButtonPushedFcn = createCallbackFcn(app, @NewMazeButtonPushed, true);
+            app.NewMazeButton.Position = [77 21 100 23];
             app.NewMazeButton.Text = 'New Maze';
 
             % Show the figure after all components are created
